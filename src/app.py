@@ -64,10 +64,23 @@ def create_app(test_config=None):
             json["dummies"] = "|".join(json["dummies"])
             dal.add_question(json)
             return "Created", 201
-
-    @app.route("/question/<int:id>", methods=["GET"])
+    @app.route("/question/<int:id>", methods=["GET", "PUT", "DELETE"])
     def get_question(id):
-        question = dal.get_questions(id)
-        return question.to_dict()
+        try:
+            question = dal.get_questions(id)
+        except:
+            return "Not Found", 404
+        
+        if request.method == "GET":
+            return question.to_dict()
+        if request.method == "PUT":
+            json = request.json
+            json["dummies"] = "|".join(json["dummies"])
+            dal.edit_question(id,json)
+            return "OK", 200
+        if request.method == "DELETE":
+            dal.delete_question(id)
+            return "OK", 200
+
 
     return app
