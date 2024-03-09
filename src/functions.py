@@ -15,3 +15,5 @@ def number_of_digits(n):
         n = n // 10
         count = count + 1
     return count
+
+

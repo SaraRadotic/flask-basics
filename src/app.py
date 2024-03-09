@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, request
+from flask import Flask, request, jsonify
 
 import src.data as dal  # data access layer
 import src.functions as f
@@ -82,5 +82,24 @@ def create_app(test_config=None):
             dal.delete_question(id)
             return "OK", 200
 
+    @app.route('/question/<int:id>', methods=["PUT"])
+    def put_question_by_id(id):
+        # Pretpostavka: dal.edit_question vraća True ako je uspešno izmenjeno pitanje
+        json_data = request.json
+        success = dal.edit_question(id, json_data)
+        if success:
+            return "OK", 200
+        else:
+            return "Not Found", 404
 
+    @app.route('/question/<int:id>', methods=["PUT"])
+    def put_question_by_id_not_found(id):
+        # Pretpostavka: dal.edit_question vraća True ako je uspešno izmenjeno pitanje
+        json_data = request.json
+        success = dal.edit_question(id, json_data)
+        if success:
+            return "OK", 200
+        else:
+            return "Not Found", 404    
+    
     return app

@@ -20,12 +20,13 @@ def add_question(question):
     questions = pd.concat([questions, question], axis=0, ignore_index=False)
     questions.to_csv("data/questions.csv")
 def edit_question(id, question):
-    question = pd.read_csv("data/questions.csv", header=0, index_col=0)
-    question.loc[id] = question
-    question.to_csv("data/questions.csv")
-    
+    questions = pd.read_csv("data/questions.csv", header=0, index_col=0)
+    questions.loc[id] = question
+    questions.to_csv("data/questions.csv")
+
 def delete_question(id):
-    question = pd.read_csv("data/questions.csv", header=0, index_col=0)
-    question.loc[id] = question
-    question.drop(index=id)
+    questions = pd.read_csv("data/questions.csv", header=0, index_col=0)
+    questions = questions.drop(index=id)
+    questions.to_csv("data/questions.csv")
+
     
